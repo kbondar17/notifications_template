@@ -5,6 +5,8 @@ commands.txt
 __pycache__/
 *.py[cod]
 *$py.class
+temp.py
+go.sh
 
 # C extensions
 *.so

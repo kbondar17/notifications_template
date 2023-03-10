@@ -1,0 +1,10 @@
+FROM python:3.11.2-alpine3.17
+
+WORKDIR /app
+
+RUN mkdir /app/email
+COPY ../email /app/email
+RUN chmod +x /app/email/run_workers.sh
+
+RUN pip install -r email/requirements.txt
+

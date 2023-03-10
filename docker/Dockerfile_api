@@ -1,0 +1,12 @@
+FROM tiangolo/uvicorn-gunicorn-fastapi
+
+WORKDIR /api
+
+COPY ../app/requirements.txt requirements.txt
+
+RUN mkdir /api/app
+COPY ./app /api/app
+
+RUN pip install -r requirements.txt
+
+# RUN uvicorn app.main:app --reload

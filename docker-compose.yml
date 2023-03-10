@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile_api
+    command: uvicorn app.main:app  --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      - rabbit
+    ports:
+      - 8000:8000
+    volumes:
+      - ./app:/api/app
+
+  email_worker:
+    container_name: email_worker
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile_email_sender
+    command: /bin/sh -c "cd /app/email && source run_workers.sh"
+    volumes:
+      - ./email:/app/email
+
+  email_db:
+    container_name: email_db
+    image: postgres:14
+    env_file:
+      - .env
+
+  rabbit:
+    container_name: rabbit
+    image: rabbitmq:latest
+    ports:
+      - 5672:5672
